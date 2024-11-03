@@ -121,16 +121,6 @@ class NotesProcessor:
             - Success metrics
             - Contact person
 
-        ## Key Terms & Definitions
-        For education terms and acronyms that came up in discussions:
-        * **[Term/Acronym]**:
-            - Official CCC Definition
-            - How it was used in the meeting's context
-            - Why it matters for the discussion
-            - Impact on students/college
-            - Requirements/deadlines
-            - Resources for more information
-
         ## Action Items & Strategic Initiatives
         Tell the story of how each action item was determined:
         * **Action Required**:
@@ -179,29 +169,15 @@ class NotesProcessor:
         * Support services mentioned
         * Reference materials shared
 
-        Guidelines:
-        - Write in a clear narrative style that tells the story of what happened
-        - Explain discussions and decisions as if describing to someone who was absent
-        - Include actual quotes or paraphrased statements from participants when relevant
-        - Describe any debates, concerns, or alternative viewpoints raised
-        - Capture the flow of conversation and how decisions were reached
-        - Detail specific examples and scenarios discussed
-        - Explain the context behind decisions and next steps
-        - Note emotional elements like enthusiasm, concerns, or disagreements
-        - Describe any visual presentations or data shown
-        - Maintain chronological flow while organizing by topic
-        - Connect discussions to DVC's mission and goals
-        - Highlight equity considerations
-        - Note student success impacts
-        - Include strategic context
-        - Explain all acronyms with official CCC definitions
-        - Provide full context
-        - Track all deadlines
-        - Note resource needs
-        - Specify responsible parties
-        - Include success metrics
-        - Use clear formatting
-        - Bold (**) key items
+        ## Key Terms & Definitions
+        Only include this section if education terms or acronyms were used in the meeting. For each term used:
+        * **[Term/Acronym]**:
+            - Official CCC Definition
+            - How it was used in this meeting's context
+            - Why it matters for this discussion
+            - Impact on students/college
+            - Any related requirements or deadlines
+            - Where to find more information
 
         Key DVC Strategic Goals to Reference:
         1. Student Learning & Success
@@ -224,7 +200,29 @@ class NotesProcessor:
         - Serve local needs
         - Enhance outreach
 
-        Format notes to be both comprehensive and strategically aligned with DVC's mission and goals. When creating notes, clearly identify and define all technical terms, acronyms, and education-specific language using official California Community College definitions."""
+        Guidelines:
+        - Write in a clear narrative style that tells the story of what happened
+        - Explain discussions and decisions as if describing to someone who was absent
+        - Include actual quotes or paraphrased statements from participants when relevant
+        - Describe any debates, concerns, or alternative viewpoints raised
+        - Capture the flow of conversation and how decisions were reached
+        - Detail specific examples and scenarios discussed
+        - Explain the context behind decisions and next steps
+        - Note emotional elements like enthusiasm, concerns, or disagreements
+        - Describe any visual presentations or data shown
+        - Maintain chronological flow while organizing by topic
+        - Connect discussions to DVC's mission and goals
+        - Highlight equity considerations
+        - Note student success impacts
+        - Include strategic context
+        - Only include and explain terms and acronyms that were actually used in the meeting
+        - Provide full context
+        - Track all deadlines
+        - Note resource needs
+        - Specify responsible parties
+        - Include success metrics
+        - Use clear formatting
+        - Bold (**) key items"""
 
         try:
             data = {
@@ -234,7 +232,7 @@ class NotesProcessor:
                 "messages": [
                     {
                         "role": "user",
-                        "content": f"Please analyze this transcript and create detailed, strategically-aligned notes for a {meeting_type} meeting. Include official definitions for any education terms or acronyms used. Reference these official definitions when applicable: {self.ccc_definitions}\n\n{text}"
+                        "content": f"Please analyze this transcript and create detailed, strategically-aligned notes for a {meeting_type} meeting. Reference these official definitions when applicable: {self.ccc_definitions}\n\n{text}"
                     }
                 ]
             }
@@ -326,7 +324,7 @@ def main():
         </style>
     """, unsafe_allow_html=True)
 
-   # Header with gradient background
+    # Header with gradient background
     st.markdown("""
         <div class="app-title">
             <div class="black-text">
@@ -372,7 +370,7 @@ def main():
     with col2:
         if st.button("✨ Generate Notes", use_container_width=True):
             if text_input and text_input.strip():
-                with st.spinner("🔄 Processing your notes, please give me a couple of minutes..."):
+                with st.spinner("🔄 Processing your notes, please give me a couple of minutes (patience is virtue!)..."):
                     notes_data = processor.process_notes(text_input, meeting_type)
                     if notes_data:
                         st.markdown("### 📋 Generated Notes")
