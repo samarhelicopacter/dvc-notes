@@ -349,68 +349,100 @@ class DVCNoteSmart:
                     text += "\n\nContent from uploaded materials:\n" + file_content
             # END OF NEW SECTION
 
-            system_prompt = """You are a professional note-taker for California Community Colleges, specializing in creating 
-            comprehensive, detailed meeting notes with rich narrative descriptions. Focus on:
-            1. Providing extensive context for each discussion point
-            2. Capturing the flow and evolution of discussions
-            3. Explaining rationale behind decisions
-            4. Using roles/functions instead of names
-            5. Including specific examples while maintaining anonymity
-            6. Preserving technical details and data points
-            
-            Format notes with:
-            - Clear section headings
-            - Detailed bullet points with complete context
-            - Rich narrative descriptions
-            - Specific examples and data
-            - Decision rationale
-            - Next steps and implications"""
+            system_prompt = """You are an expert meeting note-taker and education policy specialist for California Community Colleges. Create clear, thorough notes that:
 
-            # Enhanced meeting prompt
-            meeting_prompt = f"""Create detailed, narrative-style notes from this transcript following these requirements:
+            1. Start with "**Meeting Notes**" followed by a concise orientation line and Meeting Overview paragraph that:
+            • States the main purpose 
+            • Lists key topics with full context
+            • Notes critical upcoming actions
+            • Connects to broader institutional goals
 
-            Meeting Context:
-            - Type: {meeting_type}
-            - Referenced Materials: {self._format_materials_list(context.get('uploaded_materials', []))}
+            2. Present Discussion Points in lettered sections (A, B, C) that:
+            • Start with clear context using full sentences
+            • Use asterisk (*) bullet points 
+            • Include numbered sub-points where needed
+            • Fully explain policies using available definitions
+            • Give specific examples with numbers
+            • Connect to practical implications
 
-            Required Sections:
+            3. When explaining policies or initiatives:
+            • Define them completely using official definitions: define clearly and thoroughly
+            • Give practical examples
+            • Note key implications
+            • Keep the explanation focused
+            • Define them completely using official definitions
+            • Explain the rationale and impact
+            • Include specific implementation details
+            • Note implications for different stakeholders
+            • Connect to other relevant policies/changes
 
-            1. Quick Navigation
-            - Links to major topics
-            - Key decisions summary
-            - Critical deadlines
+            4. Maintain clean formatting:
+            • Use consistent spacing
+            • Create clear hierarchical structure
+            • Use bullet points effectively
+            • Separate timelines and action items clearly"""
 
-            2. Discussion Points
-            For each major topic, include:
-            • **Context & Background:** Detailed explanation of why this topic was discussed
-            • **Key Updates:** Rich narrative descriptions of main points
-            • **Challenges & Solutions:** Thorough exploration of issues raised and solutions proposed
-            • **Decisions & Rationale:** Complete context for why decisions were made
-            • **Implementation Details:** Specific steps and considerations
-            • **Examples & Data:** Relevant numbers, scenarios, or cases discussed
-            
-            3. Action Items
-            By responsible area (not individual):
-            • Specific tasks with complete context
-            • Dependencies and requirements
-            • Resource needs
-            • Success criteria
+            meeting_prompt = f"""Create clear, thorough notes that explain concepts fully while maintaining clean organization:
 
-            4. Next Steps
-            • Upcoming work required
-            • Preparation needed
-            • Dependencies and timelines
+            Start with:
+            Meeting Overview: One detailed paragraph covering main purpose, key topics with context, and critical upcoming actions.
+
+            Then use:
+            Discussion Points:
+
+            A. [Topic Name]
+            * Purpose: [Clear statement]
+            * Key components:
+            1. [First component with details]
+            2. [Second component with details]
+            3. [Third component with details]
+            * Example criteria/numbers: [Specific metrics]
+            * Implementation timeline: [Specific dates/steps]
+
+            B. [Policy/Initiative Name]
+            * What is it: [Use full definition from reference]
+            * Key changes/implications:
+            1. [First major change/impact]
+            2. [Second major change/impact]
+            * Implementation requirements: [Specific details]
+            * Timeline: [Key dates/deadlines]
+
+            [Continue similar structure for other topics]
+
+            Timelines and Deadlines:
+            * [Date]: [Specific requirement/deadline]
+            * [Date]: [Specific requirement/deadline]
+
+            Action Items:
+            For [Role/Group]:
+            * [Specific task with deadline]
+            * [Specific task with deadline]
+
+            For [Role/Group]:
+            * [Specific task with deadline]
+            * [Specific task with deadline]
+
+            Final Notes:
+            Brief focused paragraph highlighting key priorities and immediate next steps.
+
+            Use these definitions to fully explain any referenced policies/initiatives:
+            {json.dumps(self.ccc_definitions, indent=2)}
 
             Format Requirements:
-            - Use rich narrative bullet points that tell complete stories
-            - Include specific examples and data points
-            - Maintain anonymity while preserving context
-            - Bold key terms and concepts
-            - Preserve technical details and numbers
-            - Group related items logically
+            - Start each topic with clear context
+            - Use asterisks (*) for bullet points
+            - Include specific examples/numbers
+            - Fully explain policies using definitions
+            - Keep formatting consistent
 
-            Reference these terms and definitions when relevant:
+            Key Terms Reference:
             {json.dumps(self.ccc_definitions, indent=2)}
+
+            Additional Context:
+            - Vision 2030 goals
+            - Current legislation
+            - Budget context
+            - Student success metrics
 
             Meeting transcript to analyze:
 
