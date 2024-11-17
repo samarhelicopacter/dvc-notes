@@ -578,7 +578,7 @@ def main():
     )
 
     # Process button
-    if st.button("Generate Professional Notes", use_container_width=True):
+    if st.button("Generate Notes", use_container_width=True):
         if text_input and text_input.strip():
             with st.spinner("🔄 Processing your notes... (this may take a few minutes)"):
                 context = {
